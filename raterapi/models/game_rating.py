@@ -7,4 +7,3 @@ class GameRating(models.Model):
     game = models.ForeignKey('Game', on_delete=models.CASCADE)
     rating = models.IntegerField()
     created_on = models.DateField()
-
