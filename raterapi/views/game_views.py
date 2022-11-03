@@ -1,12 +1,14 @@
-from django.http import HttpResponseServerError
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
-from raterapi.models import GameCategory, Category, Game
+from django.contrib.auth.models import User
+from raterapi.models import GameCategory, Category, Game, GameReview
 
 class GameView(ViewSet):
     """game rater game view"""
 
+
+    # e0f7eb3161752da6e6ccaa9170a8def97f7c4221
 
 
     # get singular game
@@ -19,8 +21,8 @@ class GameView(ViewSet):
         serializer = GameSerializer(game)
         return Response(serializer.data, status = status.HTTP_200_OK)
 
-        
-        
+
+
 
     # get all games
     def list(self, request):
@@ -35,14 +37,13 @@ class GameView(ViewSet):
         serializer = GameSerializer(game, many=True)
         return Response(serializer.data, status = status.HTTP_200_OK)
 
-    # create a game 
+    # create a game
     def create(self, request):
         """Handle POST operations
 
         Returns
             Response -- JSON serialized game instance
         """
-        
         game = Game.objects.create(
             user=request.auth.user,
             title=request.data["title"],
@@ -54,28 +55,56 @@ class GameView(ViewSet):
             time_to_play=request.data["timeToPlay"],
             recommended_age=request.data["recommendedAge"]
         )
-        
+
 
         # We have a pk for the new game, create GameCategory instances
         categories = request.data["categories"]
         for category in categories:
             category_to_assign = Category.objects.get(pk=category)
-            
+
             game_category = GameCategory()
             game_category.game = game
             game_category.category = category_to_assign
             game_category.save()
 
-        
+
         serializer = GameSerializer(game)
         return Response(serializer.data, status = status.HTTP_201_CREATED)
 
-    
+
+class GameReviewUserSerializer(serializers.ModelSerializer):
+    """JSON serializer for game review users """
+
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'username', )
+
+
+class GameReviewsSerializer(serializers.ModelSerializer):
+    """JSON serializer for game reviews """
+    user = GameReviewUserSerializer(many=False)
+
+    class Meta:
+        model = GameReview
+        fields = ('review', 'created_on', 'user', )
+
+
+class GameCategoriesSerializer(serializers.ModelSerializer):
+    """JSON serializer for game categories """
+
+    class Meta:
+        model = Category
+        fields = ('description', )
+
 
 class GameSerializer(serializers.ModelSerializer):
-    """JSON serializer for game types
-    """
+    """JSON serializer for games """
+    reviews = GameReviewsSerializer(many=True)
+    categories = GameCategoriesSerializer(many=True)
+
     class Meta:
         model = Game
-        fields = ('id', 'user', 'title', 'release_year', 'image_file', 'number_of_players', 'description', 
-                    'designer', 'time_to_play', 'recommended_age', 'categories')
+        fields = ('id', 'user', 'reviews', 'title',
+                  'release_year', 'image_file', 'number_of_players',
+                  'description', 'designer', 'time_to_play',
+                  'recommended_age', 'categories')
