@@ -1,10 +1,17 @@
+from rest_framework import routers
 from django.contrib import admin
 from django.conf.urls import include
 from django.urls import path
 from raterapi.views import register_user, login_user
+from raterapi.views import GameView
+
+router = routers.DefaultRouter(trailing_slash=False) 
+# ^ tells the router to accept /gametypes instead of /gametypes/
+router.register(r'games', GameView, 'game')
 
 urlpatterns = [
     path('register', register_user),
     path('login', login_user),
     path('admin/', admin.site.urls),
+    path('', include(router.urls)),
 ]

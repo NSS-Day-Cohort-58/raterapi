@@ -1,0 +1,23 @@
+[
+    {
+        "model": "raterapi.category",
+        "pk": 1,
+        "fields": {
+            "description": "Board game"
+        }
+    },
+    {
+        "model": "raterapi.category",
+        "pk": 2,
+        "fields": {
+            "description": "Role-playing game"
+        }
+    },
+    {
+        "model": "raterapi.category",
+        "pk": 3,
+        "fields": {
+            "description": "Drinking game"
+        }
+    }
+]
