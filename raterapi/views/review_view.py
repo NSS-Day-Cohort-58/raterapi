@@ -1,8 +1,11 @@
 from datetime import date
-from rest_framework.viewsets import ViewSet
-from rest_framework.response import Response
+
 from rest_framework import serializers, status
-from raterapi.models import GameCategory, Category, Game, GameReview
+from rest_framework.response import Response
+from rest_framework.viewsets import ViewSet
+
+from raterapi.models import Category, Game, GameCategory, GameReview
+
 
 class ReviewView(ViewSet):
     """Review view"""
@@ -12,7 +15,11 @@ class ReviewView(ViewSet):
         Returns:
             Response -- JSON serialized game type
         """
-        review = GameReview.objects.get(pk=pk)
+        try:
+            review = GameReview.objects.get(pk=pk)
+        except GameReview.DoesNotExist:
+            return Response({"message": "The game view you requested does not exist"}, status = status.HTTP_404_NOT_FOUND)
+
         serializer = ReviewSerializer(review)
         return Response(serializer.data, status = status.HTTP_200_OK)
 
@@ -34,9 +41,27 @@ class ReviewView(ViewSet):
         Returns
             Response -- JSON serialized game instance
         """
+        required_fields = ['gameId', 'review']
+        missing_fields = 'Hey dummy, you are missing'
+        is_field_missing = False
+
+        for field in required_fields:
+            value = request.data.get(field, None)
+            if value is None:
+                missing_fields = f'{missing_fields} and {field}'
+                is_field_missing = True
+
+        if is_field_missing:
+            return Response({"message": missing_fields}, status = status.HTTP_400_BAD_REQUEST)
+
+        try:
+            assigned_game = Game.objects.get(pk=request.data['gameId'])
+        except Game.DoesNotExist:
+            return Response({"message": "The game you specified does not exist"}, status = status.HTTP_404_NOT_FOUND)
+
         review = GameReview()
         review.user = request.auth.user
-        review.game = Game.objects.get(pk=request.data['gameId'])
+        review.game = assigned_game
         review.review = request.data['review']
         review.created_on = date.today()
         review.save()
@@ -44,7 +69,6 @@ class ReviewView(ViewSet):
 
         serializer = ReviewSerializer(review)
         return Response(serializer.data, status = status.HTTP_201_CREATED)
-
 
 
 class ReviewSerializer(serializers.ModelSerializer):

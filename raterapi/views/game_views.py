@@ -17,7 +17,11 @@ class GameView(ViewSet):
         Returns:
             Response -- JSON serialized game type
         """
-        game = Game.objects.get(pk=pk)
+        try:
+            game = Game.objects.get(pk=pk)
+        except Game.DoesNotExist:
+            return Response({"message": "The game you requested does not exist"}, status = status.HTTP_404_NOT_FOUND)
+
         serializer = GameSerializer(game)
         return Response(serializer.data, status = status.HTTP_200_OK)
 
@@ -44,6 +48,30 @@ class GameView(ViewSet):
         Returns
             Response -- JSON serialized game instance
         """
+        required_fields = ['title', 'designer', 'releaseYear', 'imageFile', 'numberOfPlayers', 'description', 'timeToPlay', 'recommendedAge']
+        missing_fields = 'Hey dummy, you are missing'
+        is_field_missing = False
+
+
+        for field in required_fields:
+            value = request.data.get(field, None)
+            if value is None:
+                missing_fields = f'{missing_fields} and {field}'
+                is_field_missing = True
+
+        if is_field_missing:
+            return Response({"message": missing_fields}, status = status.HTTP_400_BAD_REQUEST)
+
+
+        # We have a pk for the new game, create GameCategory instances
+        categories = request.data["categories"]
+        for category in categories:
+            try:
+                category_to_assign = Category.objects.get(pk=category)
+            except Category.DoesNotExist:
+                return Response({"message": "The category you specified does not exist"}, status = status.HTTP_404_NOT_FOUND)
+
+
         game = Game.objects.create(
             user=request.auth.user,
             title=request.data["title"],
@@ -58,10 +86,8 @@ class GameView(ViewSet):
 
 
         # We have a pk for the new game, create GameCategory instances
-        categories = request.data["categories"]
         for category in categories:
             category_to_assign = Category.objects.get(pk=category)
-
             game_category = GameCategory()
             game_category.game = game
             game_category.category = category_to_assign
