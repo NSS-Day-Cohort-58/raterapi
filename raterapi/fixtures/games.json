@@ -1,0 +1,47 @@
+[
+    {
+        "model": "raterapi.game",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "title": "Beer Pong",
+            "release_year": 1971,
+            "image_file": "",
+            "number_of_players": 2,
+            "description": "Get drunk and test your motor skills",
+            "designer": "Some college person",
+            "time_to_play": 10,
+            "recommended_age": 21
+        }
+    },
+    {
+        "model": "raterapi.game",
+        "pk": 2,
+        "fields": {
+            "user": 1,
+            "title": "Cockroach Poker",
+            "release_year": 2019,
+            "image_file": "",
+            "number_of_players": 3,
+            "description": "Bluff your teammates by telling them which bug you are passing them",
+            "designer": "Hasbro",
+            "time_to_play": 15,
+            "recommended_age": 8
+        }
+    },
+    {
+        "model": "raterapi.game",
+        "pk": 3,
+        "fields": {
+            "user": 1,
+            "title": "Cat Chaos",
+            "release_year": 2000,
+            "image_file": "",
+            "number_of_players": 4,
+            "description": "Get matching pairs of 4 before your enemies do",
+            "designer": "Hasbro",
+            "time_to_play": 30,
+            "recommended_age": 4
+        }
+    }
+]

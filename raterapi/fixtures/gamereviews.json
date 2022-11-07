@@ -1,0 +1,22 @@
+[
+    {
+        "model": "raterapi.gamereview",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "game": 2,
+            "review": "I don't even remember playing it",
+            "created_on": "2022-11-03"
+        }
+    },
+    {
+        "model": "raterapi.gamereview",
+        "pk": 2,
+        "fields": {
+            "user": 1,
+            "game": 5,
+            "review": "If you hate cats, this game isn't for you",
+            "created_on": "2022-11-04"
+        }
+    }
+]

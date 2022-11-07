@@ -1,0 +1,20 @@
+[
+    {
+        "model": "auth.user",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$390000$yn0kKYIAhNNIHGZeXkUe2v$df3wcH+1LdT33S3v0AsgA+niQe+HN1wWEciiit7V/Go=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "steve",
+            "first_name": "Steve",
+            "last_name": "Brownlee",
+            "email": "",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2022-11-03T14:20:29.983Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    }
+]

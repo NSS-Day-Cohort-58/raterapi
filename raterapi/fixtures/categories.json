@@ -3,21 +3,70 @@
         "model": "raterapi.category",
         "pk": 1,
         "fields": {
-            "description": "Board game"
+            "description": "Strategy"
         }
     },
     {
         "model": "raterapi.category",
         "pk": 2,
         "fields": {
-            "description": "Role-playing game"
+            "description": "Dice"
         }
     },
     {
         "model": "raterapi.category",
         "pk": 3,
         "fields": {
-            "description": "Drinking game"
+            "description": "Card"
+        }
+    },
+    {
+        "model": "raterapi.category",
+        "pk": 4,
+        "fields": {
+            "description": "Miniature"
+        }
+    },
+    {
+        "model": "raterapi.category",
+        "pk": 5,
+        "fields": {
+            "description": "Deck Building"
+        }
+    },
+    {
+        "model": "raterapi.category",
+        "pk": 6,
+        "fields": {
+            "description": "Role Playing"
+        }
+    },
+    {
+        "model": "raterapi.category",
+        "pk": 7,
+        "fields": {
+            "description": "Sports"
+        }
+    },
+    {
+        "model": "raterapi.category",
+        "pk": 8,
+        "fields": {
+            "description": "Adventure"
+        }
+    },
+    {
+        "model": "raterapi.category",
+        "pk": 9,
+        "fields": {
+            "description": "Cooperative"
+        }
+    },
+    {
+        "model": "raterapi.category",
+        "pk": 10,
+        "fields": {
+            "description": "Battle"
         }
     }
 ]

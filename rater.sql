@@ -1,0 +1,1 @@
+DELETE FROM raterapi_gamereview WHERE id = 2;

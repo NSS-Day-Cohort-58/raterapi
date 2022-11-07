@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Avg
 from django.contrib.auth.models import User
 
 class Game(models.Model):
@@ -13,3 +14,13 @@ class Game(models.Model):
     time_to_play = models.IntegerField()
     recommended_age = models.IntegerField()
     categories = models.ManyToManyField('Category', through='GameCategory')
+
+    @property
+    def average_rating(self):
+        avg = 0
+        all_ratings = self.ratings.all()
+        for rating in all_ratings:
+            avg = avg + rating.rating
+
+        avg = avg / len(all_ratings)
+        return avg
