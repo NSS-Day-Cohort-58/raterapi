@@ -22,5 +22,8 @@ class Game(models.Model):
         for rating in all_ratings:
             avg = avg + rating.rating
 
-        avg = avg / len(all_ratings)
+        try:
+            avg = avg / len(all_ratings)
+        except ZeroDivisionError:
+            pass
         return avg

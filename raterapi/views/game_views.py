@@ -6,12 +6,8 @@ from raterapi.models import GameCategory, Category, Game, GameReview
 
 class GameView(ViewSet):
     """game rater game view"""
-
-
     # e0f7eb3161752da6e6ccaa9170a8def97f7c4221
 
-
-    # get singular game
     def retrieve(self, request, pk):
         """Handle GET requests for single game type
         Returns:
@@ -25,10 +21,6 @@ class GameView(ViewSet):
         serializer = GameSerializer(game)
         return Response(serializer.data, status = status.HTTP_200_OK)
 
-
-
-
-    # get all games
     def list(self, request):
         """Handle GET requests to get all games
 
@@ -41,14 +33,15 @@ class GameView(ViewSet):
         serializer = GameSerializer(game, many=True)
         return Response(serializer.data, status = status.HTTP_200_OK)
 
-    # create a game
     def create(self, request):
         """Handle POST operations
 
         Returns
             Response -- JSON serialized game instance
         """
-        required_fields = ['title', 'designer', 'releaseYear', 'imageFile', 'numberOfPlayers', 'description', 'timeToPlay', 'recommendedAge']
+        required_fields = ['title', 'designer', 'categories',
+                        'releaseYear', 'imageFile', 'numberOfPlayers',
+                        'description', 'timeToPlay', 'recommendedAge']
         missing_fields = 'Hey dummy, you are missing'
         is_field_missing = False
 
