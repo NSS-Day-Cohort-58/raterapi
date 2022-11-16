@@ -6,7 +6,6 @@ from raterapi.views import register_user, login_user
 from raterapi.views import GameView, ReviewView, CategoryView, RatingView
 
 router = routers.DefaultRouter(trailing_slash=False)
-# ^ tells the router to accept /gametypes instead of /gametypes/
 router.register(r'games', GameView, 'game')
 router.register(r'reviews', ReviewView, 'review')
 router.register(r'ratings', RatingView, 'rating')

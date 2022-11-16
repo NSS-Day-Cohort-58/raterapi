@@ -4,7 +4,7 @@ from rest_framework import serializers, status
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
-from raterapi.models import Category, Game, GameCategory, GameReview
+from raterapi.models import Game, GameReview
 
 
 class ReviewView(ViewSet):
