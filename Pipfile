@@ -10,8 +10,12 @@ pylint = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
 pylint-django = "*"
+gunicorn = "*"
+dj-database-url = "*"
+psycopg2-binary = "*"
+
 
 [dev-packages]
 
 [requires]
-python_version = "3.8"
+python_version = "*"

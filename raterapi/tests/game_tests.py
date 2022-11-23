@@ -16,6 +16,29 @@ class GameTests(APITestCase):
         token = Token.objects.get(user=self.gamer)
         self.client.credentials(HTTP_AUTHORIZATION=f"Token {token.key}")
 
+    def test_delete_game(self):
+        """
+        Ensure we can delete an existing game.
+        """
+        game = Game()
+        game.release_year = 1994
+        game.title = "Trivial Pursuit"
+        game.image_file = ""
+        game.designer = "Hasbro"
+        game.time_to_play = 40
+        game.recommended_age = 13
+        game.number_of_players = 4
+        game.user_id = 1
+        game.save()
+
+        response = self.client.delete(f"/games/{game.id}")
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+        # GET GAME AGAIN TO VERIFY 404 response
+        response = self.client.get(f"/games/{game.id}")
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+
     def test_create_game(self):
         """Create game test"""
         url = "/games"

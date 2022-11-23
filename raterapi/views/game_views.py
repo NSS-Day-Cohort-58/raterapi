@@ -90,6 +90,14 @@ class GameView(ViewSet):
         serializer = GameSerializer(game)
         return Response(serializer.data, status = status.HTTP_201_CREATED)
 
+    def delete(self, request, pk):
+        try:
+            game_to_delete = Game.objects.get(pk=pk)
+            game_to_delete.delete()
+            return Response(None, status = status.HTTP_204_NO_CONTENT)
+        except Game.DoesNotExist:
+            return Response(None, status = status.HTTP_404_NOT_FOUND)
+
 
 class GameReviewUserSerializer(serializers.ModelSerializer):
     """JSON serializer for game review users """
